@@ -9,12 +9,32 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import r2_score, mean_squared_error
 
 def to_snake_case(name):
+    '''
+    Converts a Pascal case string to snake case
+
+    INPUT
+    name - a string to be converted to snake case
+
+    OUTPUT
+    name - the string converted to snake case
+    '''
     name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     name = re.sub('__([A-Z])', r'_\1', name)
     name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name)
     return name.lower()
 
 def count_percentage(x, y, data):
+    '''
+    Counts the value related to its group and provides a percentage of the total
+
+    INPUT:
+    x - the column name of the value to be counted
+    y - the column name of the group
+    data - the dataframe to be used
+
+    OUTPUT:
+    df - a dataframe with the value and its percentage of the total
+    '''
     return data \
         .groupby(x)[y] \
         .value_counts(normalize=True) \
@@ -23,6 +43,14 @@ def count_percentage(x, y, data):
         .reset_index()
 
 def plot_cat(x, y, data, aspect=2):
+    '''
+    Creates a barplot of the value counts of a categorical variable
+
+    INPUT:
+    x - the column name of the variable to be plotted
+    y - the column name of the variable to be plotted
+    data - the dataframe to be used
+    '''
     df = data[[x, y]].dropna()
     df[y] = df[y].str.split(";")
 
@@ -33,6 +61,16 @@ def plot_cat(x, y, data, aspect=2):
     g = sns.catplot(x = x, y = "percent", hue = y, kind="bar", aspect = aspect, data = df_g)
 
 def clean_data(data):
+    '''
+    Cleans the dataframe by removing null values and converting categorical variables to dummies
+
+    INPUT:
+    data - the dataframe to be cleaned
+
+    OUTPUT:
+    X - the response variable
+    y - the predictor variables
+    '''
 
     # simplify job_sat
 
@@ -45,7 +83,7 @@ def clean_data(data):
     # create response vars
     y = satisfy.is_satisfied.astype(int)
 
-    # drop respondent, age, comp_total, converted_comp, job_sat
+    # select the relevant columns
     cols = ["hobbyist" ,"age1st_code" ,"comp_freq" ,\
         "country" ,"dev_type" ,"ed_level" ,"employment" ,"ethnicity" ,"gender" ,"new_dev_ops" ,\
         "new_dev_ops_impt" ,"new_ed_impt" ,"new_learn" ,"new_onboard_good" ,"new_other_comms" ,\
@@ -75,6 +113,8 @@ def clean_data(data):
 
 def find_optimal_mod(X, y, cutoffs, test_size = .30, random_state=42, plot=True):
     '''
+    Finds the optimal logical regression model for the given data
+
     INPUT
     X - pandas dataframe, X matrix
     y - pandas dataframe, response variable
@@ -136,6 +176,8 @@ def find_optimal_mod(X, y, cutoffs, test_size = .30, random_state=42, plot=True)
 
 def coef_weights(coefficients, X_train):
     '''
+    Creates a dataframe of the coefficients and the variables they correspond to
+
     INPUT:
     coefficients - the coefficients of the linear model 
     X_train - the training data, so the column names can be used
