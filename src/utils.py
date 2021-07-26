@@ -42,7 +42,7 @@ def count_percentage(x, y, data):
         .rename('percent') \
         .reset_index()
 
-def plot_cat(x, y, data, aspect=2):
+def plot_cat(x, y, data, title, label, aspect=2):
     '''
     Creates a barplot of the value counts of a categorical variable
 
@@ -59,6 +59,8 @@ def plot_cat(x, y, data, aspect=2):
     df_g = count_percentage(x, y, df_exp)
 
     g = sns.catplot(x = x, y = "percent", hue = y, kind="bar", aspect = aspect, data = df_g)
+    g.set(xlabel = "Job Satisfaction", ylabel = "Percentage", title = title)
+    g._legend.set_title(label)
 
 def clean_data(data):
     '''
