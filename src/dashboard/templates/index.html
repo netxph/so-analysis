@@ -14,28 +14,45 @@
     <title>Stack Overflow Survey Dashboard</title>
   </head>
   <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
         <div class="d-flex flex-grow-1">
-            <span class="w-100 d-lg-none d-block">
-                <!-- hidden spacer to center brand on mobile --></span>
-            <a class="navbar-brand" href="#">Stack Overflow Survey Dashboard</a>
-            <div class="w-100 text-right">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar7">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
+          <span class="w-100 d-lg-none d-block">
+            <!-- hidden spacer to center brand on mobile --></span
+          >
+          <a class="navbar-brand" href="#">Stack Overflow Survey Dashboard</a>
+          <div class="w-100 text-right">
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#myNavbar7"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
         </div>
-        <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
-            <ul class="navbar-nav ms-auto flex-nowrap">
-                <li class="nav-item">
-                    <a href="https://github.com/netxph/so-analysis" class="nav-link">Github</a>
-                </li>
-            </ul>
+        <div
+          class="collapse navbar-collapse flex-grow-1 text-right"
+          id="myNavbar7"
+        >
+          <ul class="navbar-nav ms-auto flex-nowrap">
+            <li class="nav-item">
+              <a href="https://github.com/netxph/so-analysis" class="nav-link"
+                >Github</a
+              >
+            </li>
+          </ul>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
     <main>
+      <div class="row">
+        <div class="col-12" id="fig-satisfy"></div>
+      </div>
+      <div class="row">
+        <div class="col-12" id="fig-factors"></div>
+      </div>
     </main>
 
     <script
@@ -43,5 +60,22 @@
       integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+        $.get("api/graph/satisfy", function(data){
+            var data = JSON.parse(data);
+            Plotly.plot("fig-satisfy", data.data, data.layout);
+        });
+
+        $.get("api/graph/factors", function(data){
+            var data = JSON.parse(data);
+            Plotly.plot("fig-factors", data.data, data.layout);
+        });
+    </script>
   </body>
 </html>
